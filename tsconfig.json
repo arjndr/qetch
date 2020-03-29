@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "rootDirs": ["./src"],
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationMap": true,
+    "declarationDir": "./dist",
+    "moduleResolution": "node",
+    "removeComments": true,
+    "sourceMap": true,    
+    "strict": true,
+    "module": "CommonJS",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "baseUrl": "typings"
+  }, 
+  "exclude": [
+    "dist",
+    "esm",
+    "node_modules",
+    "examples",
+    "tests"
+  ],
+  "include": [
+    "src"
+  ]
+}
