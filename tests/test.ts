@@ -1,46 +1,44 @@
 import qetch, { gql } from '../dist'
 
-const pokemonClient = new qetch('https://graphql-pokemon.now.sh/')
+const anilistClient = new qetch('https://graphql.anilist.co')
 
-const GET_POKEMON_SPECIAL_ATTACKS = gql`
+const GET_CODE_GEASS = gql`
   query {
-    pokemon(name: "Pikachu") {
-      name
-      attacks {
-        special {
-          name
-          type
-          damage
-        }
+    Media (id: 97880, type: ANIME) {
+      title {
+        english
       }
     }
   }
 `
 
-const GET_PIKACHU_ID = gql`
-  query Pokemon($pokemonName: String!) {
-    pokemon (name: $pokemonName) {
+const GET_CODE_GEASS_ID = gql`
+  query Media ($id: Int!) {
+    Media (id: $id, type: ANIME) {
       id
+      title {
+        english
+      }
     }
   }
 `
 
 describe('qetch', () => {
   it('should fetch', async () => {
-    const results = await pokemonClient.execute(GET_POKEMON_SPECIAL_ATTACKS)
+    const results = await anilistClient.execute(GET_CODE_GEASS)
     expect(results).toBeTruthy()
   })
   
   it('should fetch again, but with variables', async () => {
-    const results = await pokemonClient.execute(GET_PIKACHU_ID, {
-      pokemonName: "Pikachu"
+    const results = await anilistClient.execute(GET_CODE_GEASS_ID, {
+      id: 97880
     })
-    expect(results.pokemon.id).toBe('UG9rZW1vbjowMjU=')
+    expect(results.Media.id).toBe(97880)
   })
 
   it('should reject when not provided with an endpoint', async () => {
-    const failingPokemonClient = new qetch('')
-    await failingPokemonClient.execute(GET_PIKACHU_ID)
+    const failingAnilistClient = new qetch('')
+    await failingAnilistClient.execute(GET_CODE_GEASS)
       .catch((e: string) => {
         console.log(e)
         expect(e).toBe('Please provide a GraphQL endpoint (e.g: https://localhost:3000/graphql/)')
@@ -48,8 +46,8 @@ describe('qetch', () => {
   })
 
   it('should reject when provided with an invalid endpoint', async () => {
-    const failingPokemonClient = new qetch('bruhmoment')
-    await failingPokemonClient.execute(GET_PIKACHU_ID)
+    const failingAnilistClient = new qetch('bruhmoment')
+    await failingAnilistClient.execute(GET_CODE_GEASS)
       .catch((e: string) => {
         console.log(e)
         expect(e).toBe('Invalid URL!')
@@ -57,10 +55,10 @@ describe('qetch', () => {
   })
 
   it('should reject when method is GET', async () => {
-    pokemonClient.setOptions({
+    anilistClient.setOptions({
       method: 'GET'
     })
-    await pokemonClient.execute(GET_POKEMON_SPECIAL_ATTACKS)
+    await anilistClient.execute(GET_CODE_GEASS)
       .catch((e: any) => {
         console.log(e)
         expect(typeof e.errors[0].message).toBe('string')
