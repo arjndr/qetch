@@ -31,9 +31,9 @@ class graphQlClient {
    * @param {string} queryOrMutation - A valid GraphQL query or mutation (subscriptions not supported!)
    * @param {object} variables - GraphQL variables
    */
-  public execute(queryOrMutation: string, variables?: any) {
+  public execute<R = any, V = any>(queryOrMutation: string, variables?: V) {
     const { url } = this
-    return new Promise<any>((resolve, reject) => {
+    return new Promise<R>((resolve, reject) => {
       if (url && url.length > 0) {
         if (validateUrl(url)) {
           if (queryOrMutation) {

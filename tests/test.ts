@@ -23,6 +23,16 @@ const GET_CODE_GEASS_ID = gql`
   }
 `
 
+interface CodeGeassIDVariable {
+  id: number
+}
+
+interface CodeGeassIDResponse {
+  Media: {
+    id: number
+  }
+}
+
 describe('qetch', () => {
   it('should fetch', async () => {
     const results = await anilistClient.execute(GET_CODE_GEASS)
@@ -30,7 +40,7 @@ describe('qetch', () => {
   })
   
   it('should fetch again, but with variables', async () => {
-    const results = await anilistClient.execute(GET_CODE_GEASS_ID, {
+    const results = await anilistClient.execute<CodeGeassIDResponse, CodeGeassIDVariable>(GET_CODE_GEASS_ID, {
       id: 97880
     })
     expect(results.Media.id).toBe(97880)
