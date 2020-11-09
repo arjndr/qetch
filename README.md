@@ -1,7 +1,7 @@
 ## qetch
 Simple GraphQL client to execute queries and mutations
 
-## Installation
+## Installation 
 
 #### via yarn
 ```sh
@@ -47,6 +47,39 @@ const SEARCH_QUERY = gql`
 `
 
 graphQlClient.execute(SEARCH_QUERY, {
+  searchQuery: "Apple"
+}).then((e) => {
+  console.log(e)
+})
+```
+
+**PRO Tip :sunglasses::+1:**
+
+You can declare custom types on variable and response object using TypeScript like this:
+
+```ts
+import qetch, { gql } from 'qetch'
+const graphQlClient = new qetch('http://localhost:8080/graphql/')
+
+const SEARCH_QUERY = gql`
+  query Search($searchQuery: String!) {
+    search(q: $searchQuery) {
+      results
+    }
+  }
+`
+
+interface SearchResponse {
+  search: {
+    results: string[]
+  }
+}
+
+interface SearchVariables {
+  searchQuery: string
+}
+
+graphQlClient.execute<SearchResponse, SearchVariables>(SEARCH_QUERY, {
   searchQuery: "Apple"
 }).then((e) => {
   console.log(e)
@@ -112,7 +145,7 @@ const SEARCH_QUERY = gql`
 
 ## Contributing
 
-Please [open an issue](https://github.com/arjndr/qetch/issues/new) if you have any problems or bug reports. Want to add new features? Please submit a PR! If you think I'm doing something wrong, please let me know so I can improve myself :")
+Please [open an issue](https://github.com/arjndr/qetch/issues/new) if you have any problems or bug reports. Want to add new features? Please submit a PR! If you think I'm doing something wrong, please let me know so I can improve myself :smiley::+1:
 
 ## Planned Features
 
