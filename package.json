@@ -1,6 +1,6 @@
 {
   "name": "qetch",
-  "version": "0.0.1-s",
+  "version": "0.0.2",
   "description": "🐕 Simple GraphQL client to execute queries and mutations",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
